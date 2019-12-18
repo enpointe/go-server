@@ -1,0 +1,92 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: JWT Authorization Server
+  description: A simple REST API Server implementation that illustrates how JWT authentication could be used in a REST API using Bearer Token Authentication.
+  contact:
+    name: API Support
+    email: bogus.user@protonmail.com
+    url: https://github.com/enpointe/go-bearer
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+servers:
+  - url: http://localhost:{port}
+    description: LocalHost Default Server URL
+    variables:    
+      port:
+        default: '8080'
+paths:
+  /protectedAPI:
+    get:
+      security:
+        - bearerAuth: []
+      summary: Access protected data
+      description: Return protected data
+      operationId: protectedAPI
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Protected'
+        "401":
+          description: Unauthorized, if the user is not authorized
+  /unprotectedAPI:
+    get:
+      summary: Access unprotected data
+      description: Returns unprotected information
+      operationId: unprotectedAPI
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Unprotected'
+  /admin:
+    get:
+      security:
+        - bearerAuth: []
+      summary: Access Admin only protected enpoint 
+      description: Returns admin information
+      operationId: admin
+      responses:
+        "200":
+          description: Successfully returned an user authorization information
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminInfo'
+        "401":
+          description: Unauthorized, if the user is not authorized
+
+components:
+  securitySchemes:
+    bearerAuth:            # arbitrary name for the security scheme
+      type: http
+      scheme: bearer
+      bearerFormat: JWT 
+  schemas:
+    Protected:
+      type: object
+      properties:
+        data:
+          type: string
+        username:
+          type: string
+        is_admin: 
+          type: boolean
+    Unprotected:
+      type: object
+      properties:
+        data:
+          type: string
+    AdminInfo:
+      type: object
+      properties:
+        username:
+          type: string
+        is_admin:
+          type: boolean
