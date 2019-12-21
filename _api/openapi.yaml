@@ -8,8 +8,8 @@ info:
     email: bogus.user@protonmail.com
     url: https://github.com/enpointe/go-bearer
   license:
-    name: Apache 2.0
-    url: http://www.apache.org/licenses/LICENSE-2.0.html
+    name: MIT License
+    url: https://github.com/enpointe/go-server/blob/master/LICENSE
 servers:
   - url: http://localhost:{port}
     description: LocalHost Default Server URL
