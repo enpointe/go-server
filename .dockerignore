@@ -1,0 +1,8 @@
+.git
+.gitignore
+Dockerfile.server
+Dockerfile.tokengen
+README.md
+LICENSE
+.vscode
+_api

@@ -59,9 +59,9 @@ $ cd cmd/server; ./server -config ../../Configuration.json
 ```
 
 As the protected enpoints require authentication you will need to use the include OpenAPI static files to access these
-via (http://localhost:8080)[http://localhost:8080] or your favorite testing tools like Postman or curl. 
+via [http://localhost:8080](http://localhost:8080) or your favorite testing tools like Postman or curl. 
 
-**Note**: If you change the default port the static Open API file mechanism will not work.
+**Note**: If you change the default port the static OpenAPI file mechanism will not work.
 
 The following illustrates how to perform a curl request 
 
@@ -219,6 +219,7 @@ are available
 - build - build the code base
 - test - test the code base. See Testing.
 - coverage - test coverage report
+- docker - build docker images
 - clean - perform a clean operation
 - run - start the included server
 
@@ -250,6 +251,39 @@ $ make test
 or
 ```
 $ go test
+```
+
+# Docker
+
+Two docker files are included in this project: Dockerfile (for server component) and Dockerfile.tokengen (for the tokengen component). The docker images can be build via
+
+```
+$ make docker
+```
+
+The resulting images can be invoked via command like
+
+```
+$ docker run go-server-tokengen -username ktripp -admin true
+$ docker run go-server-web
+```
+
+**NOTE**: The docker images in there current form will be configured to use the default Configuration.json file in the docker image. To pass in a custom configuration file into both docker images it will be necessary to share the same configuration file between both docker containers.  There are multiple techniques for this.  
+
+The following illustrates mounting a directory containing the Configuration file from the local filesystem
+
+```
+$ mkdir /tmp/config
+$ echo '{ "jwtKey":"mySuperSecretKey" }' > /tmp/config/SharedConfig.json
+$ vi /tmp/config/SharedConfig.json
+$ docker run \
+ --mount type=bind,source=/tmp/config,target=/config \
+go-server-tokengen \
+ -username jane -config /config/SharedConfig.json
+Reading /config/SharedConfig.json ...
+Generating Token ...
+JWT Authentication Token:
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImphbmUiLCJpc19hZG1pbiI6ZmFsc2UsImlhdCI6MTU3NzEyNzM2MCwiZXhwIjoxNTc3MTI4NTYwfQ.vlDU4AuTdPKHfaX-Y422yLObfV0MTjdpj_BOLB_jx_c
 ```
 
 # References

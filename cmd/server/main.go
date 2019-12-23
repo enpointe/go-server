@@ -14,7 +14,7 @@ import (
 
 // Index displays the OPEN API generated page
 func Index(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
-	http.ServeFile(w, r, "index.html")
+	http.ServeFile(w, r, "public/index.html")
 }
 
 func main() {
