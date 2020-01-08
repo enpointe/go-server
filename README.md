@@ -10,7 +10,7 @@
   - [Building](#building)
   - [Dependencies](#dependencies)
   - [Testing](#testing)
-- [Docker] (#docker)
+- [Docker](#docker)
 - [References](#references)
 
 # Introduction
